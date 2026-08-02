@@ -1,12 +1,10 @@
 const taskService = require("../services/taskService");
 
-// GET /api/tasks
 const getAllTasks = (req, res) => {
   const tasks = taskService.getAllTasks();
   res.status(200).json(tasks);
 };
 
-// GET /api/tasks/:id
 const getTaskById = (req, res) => {
   const task = taskService.getTaskById(req.params.id);
 
@@ -19,25 +17,21 @@ const getTaskById = (req, res) => {
   res.status(200).json(task);
 };
 
-// POST /api/tasks
 const createTask = (req, res) => {
   const { title, priority, completed } = req.body;
 
-  // Validate title
   if (!title || typeof title !== "string" || title.trim() === "") {
     return res.status(400).json({
       message: "Title is required.",
     });
   }
-
-  // Validate priority
+  
   if (!priority) {
     return res.status(400).json({
       message: "Priority is required.",
     });
   }
-
-  // Validate allowed priority values
+  
   const allowedPriorities = ["low", "medium", "high"];
 
   if (!allowedPriorities.includes(priority)) {
@@ -55,7 +49,6 @@ const createTask = (req, res) => {
   return res.status(201).json(newTask);
 };
 
-// PATCH /api/tasks/:id
 const updateTask = (req, res) => {
   const updatedTask = taskService.updateTask(
     req.params.id,
@@ -71,7 +64,6 @@ const updateTask = (req, res) => {
   res.status(200).json(updatedTask);
 };
 
-// DELETE /api/tasks/:id
 const deleteTask = (req, res) => {
   const deletedTask = taskService.deleteTask(req.params.id);
 
